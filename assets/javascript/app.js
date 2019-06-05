@@ -32,7 +32,7 @@ var gifDOM = $("#gifs");
  function ajaxCall(search) {
     var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=P7kpXhj98SICbOhqVNiHA8s6cG9p7mJy";
 
-    queryURL += "&q=" + search.join("+");
+    queryURL += "&q=" + search.replace(" ","+");
     queryURL += "&limit=10";
 
     $.ajax({
@@ -63,10 +63,7 @@ $(document).ready(function() {
     addButtons();
     //On each topic btn, run ajax call
     $(".apiBtn").on("click", function() {
-        // console.log(this);
-        console.log($(this).attr("data-topic"));
-        
-        // ajaxCall(this.attr("data-topic"));
+        ajaxCall($(this).attr("data-topic"))
     })
 })
 
