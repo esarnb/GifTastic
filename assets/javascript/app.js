@@ -15,10 +15,9 @@ var search = $("#search")
     topicDOM.empty();
     for (var i = 0; i < topics.length; i++) {
         var newBtn = $("<button>");
-        newBtn.attr("data-topic", topics[i])
-        newBtn.addClass("apiBtn");
-        newBtn.text(topics[i]);
-
+            newBtn.attr("data-topic", topics[i])
+            newBtn.addClass("apiBtn");
+            newBtn.text(topics[i]);
         topicDOM.append(newBtn);
     }
  }
@@ -29,6 +28,7 @@ var search = $("#search")
   * by the user for a specific search request
   * to the Giphy API. The response is sent to a
   * helper function for parsing.
+  * 
   */
  function ajaxCall(search) {
     var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=P7kpXhj98SICbOhqVNiHA8s6cG9p7mJy";
@@ -60,7 +60,8 @@ var search = $("#search")
      for (var i = 0; i < response.data.length; i++) {
         staticGif = response.data[i].images.downsized_still.url;
         animatedGif = response.data[i].images.downsized.url;
-         
+        // console.log(`Static: ${staticGif} Animated: ${animatedGif}`);
+        
         var newColumn = $("<div>").addClass("column");     
         
         var newGif = $("<img>");
@@ -68,6 +69,7 @@ var search = $("#search")
             newGif.attr("alt", topics[i] + " gif number " + (i+1))
             newGif.attr("data-still", staticGif);
             newGif.attr("data-animate", animatedGif);
+            newGif.attr("data-type", "still");
             newGif.addClass("gifBtn");
         
         //Rated R Censorship
@@ -80,12 +82,11 @@ var search = $("#search")
             gifText.text("Rating: " + response.data[i].rating.toUpperCase());
             gifText.append("<br>")
             gifText.append(newGif)
-
-            
             
         newColumn.append(gifText)
         newRow.append(newColumn);
-        
+
+         //Once a row has 5 gifs, move to the next row
         if ((i+1) % 5 == 0) {
             gifDOM.append(newRow);
             newRow = $("<div>").addClass("row")
@@ -101,14 +102,27 @@ var search = $("#search")
 $(document).ready(function() {
     //Load up default topics
     addButtons();
-    //On 'this' topic btn, run ajax call to get pics
-    $(".apiBtn").on("click", function() {
+
+    //On "this" topic btn, run ajax call to get pics
+    $(document).on("click", ".apiBtn",function() {
         ajaxCall($(this).attr("data-topic"))
     })
 
-    //If pic is clicked, animate/still the gif
-    $(".gifBtn").on("click", function() {
-        //If still, animate, else reverse.
+    //If a gif is clicked, animate/still the gif
+    $(document).on("click", ".gifBtn",function() {
+        var state = $(this).attr("data-type");
+        console.log(state);
+        
+        if (state === "still") {
+            $(this).attr("src", $(this).attr("data-animate"));
+            $(this).attr("data-type", "animate");
+        }
+        /*If state is animate or undefined, 
+            change src to still pic*/
+        else {
+            $(this).attr("src", $(this).attr("data-still"));
+            $(this).attr("data-type", "still");
+        }
     })
 
     //Search listener for specific queries
@@ -116,8 +130,8 @@ $(document).ready(function() {
         var inputTopic = $("#search").val().trim()
         event.preventDefault();
         topics.push(inputTopic)
-        $("#search").val("");
         ajaxCall(inputTopic)
+        $("#search").val("");
         addButtons()
         
     })
