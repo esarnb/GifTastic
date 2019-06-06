@@ -45,17 +45,21 @@ var gifDOM = $("#gifs");
 
  function appendGifs(response) {
      console.log(response);
-        
-    //  for (var i = 0; i < topics.length; i++) {
-    //     topicDOM.empty();
+     var staticGif, animatedGif;
+     for (var i = 0; i < topics.length; i++) {
+        topicDOM.empty();
+        staticGif = response.data[i].images.downsized_still.url;
+        animatedGif = response.data[i].images.downsized_small.url;
+        var newGif = $("<img>");
+        newGif.attr("src", staticGif);
+        newGif.attr("alt", topics[i] + " gif number " + (i+1))
+        newGif.attr("data-still", staticGif);
+        newGif.attr("data-animate", animatedGif);
+        newGif.addClass("gifBtn");
 
-    //     var newBtn = $("<button>");
-    //     newBtn.attr("position", i);
-    //     newBtn.attr("data-still", stillURL);
-    //     newBtn.attr("data-animate", animateURL);
-    //     newBtn.addClass("gifBtn");
+        gifDOM.append(newGif);
 
-    // }     
+    }     
  }
 
 $(document).ready(function() {
@@ -64,6 +68,10 @@ $(document).ready(function() {
     //On each topic btn, run ajax call
     $(".apiBtn").on("click", function() {
         ajaxCall($(this).attr("data-topic"))
+    })
+
+    $(".gifBtn").on("click", function() {
+        //If still, animate, else reverse.
     })
 })
 
