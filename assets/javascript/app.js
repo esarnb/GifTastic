@@ -49,8 +49,8 @@ var gifDOM = $("#gifs");
      var staticGif, animatedGif;
      var newRow = $("<div>").addClass("row");
      for (var i = 0; i < response.data.length; i++) {
-        staticGif = response.data[i].images.fixed_height_small_still.url;
-        animatedGif = response.data[i].images.fixed_height_small.url;
+        staticGif = response.data[i].images.downsized_still.url;
+        animatedGif = response.data[i].images.downsized.url;
          
         var newColumn = $("<div>").addClass("column");     
         
