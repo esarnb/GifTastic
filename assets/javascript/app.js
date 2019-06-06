@@ -70,11 +70,18 @@ var search = $("#search")
             newGif.attr("data-animate", animatedGif);
             newGif.addClass("gifBtn");
         
+        //Rated R Censorship
+        if (response.data[i].rating === "r") {
+            newGif.addClass("censorship");
+        }
+
         var gifText = $("<div>");
             gifText.addClass("sideBySide")
-            gifText.text("Rating: ");
+            gifText.text("Rating: " + response.data[i].rating.toUpperCase());
             gifText.append("<br>")
             gifText.append(newGif)
+
+            
             
         newColumn.append(gifText)
         newRow.append(newColumn);

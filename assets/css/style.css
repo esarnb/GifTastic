@@ -68,3 +68,13 @@ input[type=text] {
       color: white;
       border-color: #252525;
   }
+
+  .censorship {
+    filter: blur(20px);
+    -webkit-filter: blur(20px);
+  }
+
+  .censorship:hover {
+    filter: blur(0px);
+    -webkit-filter: blur(0px);
+  }
