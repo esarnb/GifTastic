@@ -44,20 +44,41 @@ var gifDOM = $("#gifs");
  }
 
  function appendGifs(response) {
+     gifDOM.empty();
      console.log(response);
      var staticGif, animatedGif;
-     for (var i = 0; i < topics.length; i++) {
-        topicDOM.empty();
-        staticGif = response.data[i].images.downsized_still.url;
-        animatedGif = response.data[i].images.downsized_small.url;
+     var newRow = $("<div>").addClass("row");
+     for (var i = 0; i < response.data.length; i++) {
+        staticGif = response.data[i].images.fixed_height_small_still.url;
+        animatedGif = response.data[i].images.fixed_height_small.url;
+         
+        var newColumn = $("<div>").addClass("column");     
+        
         var newGif = $("<img>");
-        newGif.attr("src", staticGif);
-        newGif.attr("alt", topics[i] + " gif number " + (i+1))
-        newGif.attr("data-still", staticGif);
-        newGif.attr("data-animate", animatedGif);
-        newGif.addClass("gifBtn");
-
-        gifDOM.append(newGif);
+            newGif.attr("src", staticGif);
+            newGif.attr("alt", topics[i] + " gif number " + (i+1))
+            newGif.attr("data-still", staticGif);
+            newGif.attr("data-animate", animatedGif);
+            newGif.addClass("gifBtn");
+        
+        var gifText = $("<div>");
+            gifText.addClass("sideBySide")
+            gifText.text("Rating: ");
+            gifText.append("<br>")
+            gifText.append(newGif)
+            
+        newColumn.append(gifText)
+        newRow.append(newColumn);
+            // gifDOM.append(gifText);
+        console.log(i);
+        
+        if ((i+1) % 5 == 0) {
+            //new row
+            console.log("newrow" + i);
+            
+            gifDOM.append(newRow);
+            newRow = $("<div>").addClass("row")
+       }
 
     }     
  }
