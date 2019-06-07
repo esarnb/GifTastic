@@ -58,12 +58,11 @@ var search = $("#search")
      var staticGif, animatedGif;
      var newRow = $("<div>").addClass("row");
      for (var i = 0; i < response.data.length; i++) {
-        staticGif = response.data[i].images.downsized_still.url;
-        animatedGif = response.data[i].images.downsized.url;
-        // console.log(`Static: ${staticGif} Animated: ${animatedGif}`);
         
-        var newColumn = $("<div>").addClass("column");     
-        
+        staticGif = response.data[i].images.original_still.url;
+        animatedGif = response.data[i].images.original.url;
+
+        //Create img attr urls
         var newGif = $("<img>");
             newGif.attr("src", staticGif);
             newGif.attr("alt", topics[i] + " gif number " + (i+1))
@@ -71,22 +70,26 @@ var search = $("#search")
             newGif.attr("data-animate", animatedGif);
             newGif.attr("data-type", "still");
             newGif.addClass("gifBtn");
-        
+    
         //Rated R Censorship
         if (response.data[i].rating === "r") {
             newGif.addClass("censorship");
         }
 
+        //Set rating text
         var gifText = $("<div>");
-            gifText.addClass("sideBySide")
+        gifText.addClass("sideBySide")
             gifText.text("Rating: " + response.data[i].rating.toUpperCase());
             gifText.append("<br>")
             gifText.append(newGif)
-            
-        newColumn.append(gifText)
+        
+        //Wrap img/text in div
+        var newColumn = $("<div>").addClass("column");     
+            newColumn.append(gifText)
+        
         newRow.append(newColumn);
 
-         //Once a row has 5 gifs, move to the next row
+         //Once a row has 5 gifs, append to site and reset into the next row
         if ((i+1) % 5 == 0) {
             gifDOM.append(newRow);
             newRow = $("<div>").addClass("row")
@@ -125,13 +128,15 @@ $(document).ready(function() {
         }
     })
 
-    //Search listener for specific queries
+    //Search listener for specific queries, run ajax giphy api call and display new buttons
     $("#searchForm").on("submit", function(event){
-        var inputTopic = $("#search").val().trim()
         event.preventDefault();
-        topics.push(inputTopic)
+
+        var inputTopic = $("#search").val().trim()
         ajaxCall(inputTopic)
+        
         $("#search").val("");
+        topics.push(inputTopic)
         addButtons()
         
     })

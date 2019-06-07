@@ -5,12 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>GifTastic</title>
+
     <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
 </head>
 <body>
-    
+
+
+<div class="stars">
+<div class="twinkling">
+<div class="clouds">
     <div class="heading">
         
         <!-- List of buttons to auto-search topic (Default and New) -->
@@ -21,15 +27,20 @@
     <div class="container">
 
         <!-- Form to ask user what topic to look for -->
-            <form id="searchForm">
+            <form class = "sideBySide" id="searchForm">
                 <input type="text" name="search" id="search" placeholder="Search...">
             </form>
-        </div>
 
-        <!-- List of animated gifs -->
-        <div class="sideBySide"id="gifs"></div>
+    </div>
+
+    <!-- List of animated gifs -->
+    <div class="sideBySide"id="gifs"></div>
             
     </div>
+
+</div>
+</div>
+</div>
 
     <script src="assets/javascript/app.js"></script>
 
